@@ -65,8 +65,8 @@ UML диаграмма компонента бизнес логики:
 
 ## Черновые эскизы
 
-![Login](/lab_1/login.png)
-![Register](/lab_1/register.png)
-![Guest](/lab_1/guest.png)
-![Staff](/lab_1/staff.png)
-![Admin](/lab_1/admin.png)
+![Login](/lab_1/login.jpg)
+![Register](/lab_1/register.jpg)
+![Guest](/lab_1/guest.jpg)
+![Staff](/lab_1/staff.jpg)
+![Admin](/lab_1/admin.jpg)
