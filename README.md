@@ -68,5 +68,6 @@ UML диаграмма компонента бизнес логики:
 ![Login](/lab_1/login.jpg)
 ![Register](/lab_1/register.jpg)
 ![Guest](/lab_1/guest.jpg)
+![MAKERQ](/lab_1/make.jpg)
 ![Staff](/lab_1/staff.jpg)
 ![Admin](/lab_1/admin.jpg)
