@@ -1,0 +1,766 @@
+openapi: 3.0.3
+info:
+  title: BookingHotel
+  version: 1.0.0
+tags:
+  - name: Rooms
+    description: Room
+  - name: Users
+    description: Account of User
+  - name: Guests
+    description: Guest
+  - name: Staffs
+    description: Staff work at hotel
+  - name: Requests
+    description: Resquest for a hotel reservation
+  - name: Histories
+    description: History of Booking
+paths:
+  /api/Users/login:
+    post:
+      tags:
+        - Users
+      summary: Login
+      description : Login
+      requestBody:
+        description: Login
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersPath'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '401':
+          description: Invalid login or password
+        '500':
+          description: Status internal server error
+  /api/Users/register:
+    post:
+      tags:
+      - Users
+      summary: Register
+      description: Create new account
+      requestBody:
+        description: Register
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '500':
+          description: Status internal server error
+  /api/Users:
+    get:
+      tags:
+      - Users
+      summary: Get All User Account
+      description: Return All User Account
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
+        '500':
+          description: Status internal server error
+  /api/Users/{id}:
+    get:
+      tags:
+      - Users
+      summary: Get User Account
+      description: Return User Account by Id
+      parameters:
+        - name: id
+          in: path
+          description: Id of User Account
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+    patch:
+      tags:
+      - Users
+      summary: Update User
+      description: Update User Password
+      parameters:
+        - name: id
+          in: path
+          description: Id of User Account
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update User
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+        required: true
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+    delete:
+      tags:
+      - Users
+      summary: Delete User Account
+      description: Delete Account
+      parameters:
+        - name: id
+          in: path
+          description: Id of User Account
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Not Found
+        '500':
+          description: Status internal server error
+  /api/Rooms:
+    get:
+      tags:
+      - Rooms
+      summary: Get All Room
+      description: Return List Room
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rooms'
+
+        '500':
+          description: Status internal server error
+    post:
+      tags:
+      - Rooms
+      summary: Add Room
+      description: Add New Room
+      requestBody:
+        description: Create Room
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rooms'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '500':
+          description: Status internal server error
+  /api/Rooms/{id}:
+    get:
+      tags:
+      - Rooms
+      summary: Get Single Room
+      description: Return Room by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Room
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Rooms'
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+          
+    patch:
+      tags:
+      - Rooms
+      summary: Update Room
+      description: Update Room by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Room
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Rooms'
+      responses:
+        '200':
+          description: Success operation
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error  
+    delete:
+      tags:
+      - Rooms
+      summary: Delete Room
+      description: Remove a Room
+      parameters:
+        - name: id
+          in: path
+          description: ID of Room
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+  /api/Guests:
+    get:
+      tags:
+      - Guests
+      summary: Get All Guests
+      description: Return List Guests
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Guests'
+
+        '500':
+          description: Status internal server error
+    post:
+      tags:
+      - Guests
+      summary: Add Guest
+      description: Add New Guest 
+      requestBody:
+        description: Add Guest
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Guests'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '500':
+          description: Status internal server error
+  /api/Guests/{id}:
+    get:
+      tags:
+      - Guests
+      summary: Get Single Guest
+      description: Return Guest by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Guest
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Guests'
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+          
+    patch:
+      tags:
+      - Guests
+      summary: Update Guest
+      description: Update Guest by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Guest
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Guests'
+      responses:
+        '200':
+          description: Success operation
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error  
+    delete:
+      tags:
+      - Guests
+      summary: Delete Guest
+      description: Remove a Guest
+      parameters:
+        - name: id
+          in: path
+          description: ID of Guest
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error  
+  /api/Staffs:
+    get:
+      tags:
+      - Staffs
+      summary: Get All Staffs
+      description: Return List Staffs
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Staffs'
+
+        '500':
+          description: Status internal server error
+    post:
+      tags:
+      - Staffs
+      summary: Add Staff
+      description: Add New Staff 
+      requestBody:
+        description: Add Staff
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Staffs'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '500':
+          description: Status internal server error
+  /api/Staffs/{id}:
+    get:
+      tags:
+      - Staffs
+      summary: Get Single Staff
+      description: Return Staff by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Staff
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Staffs'
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+          
+    patch:
+      tags:
+      - Staffs
+      summary: Update Staff
+      description: Update Staff by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Staff
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Staffs'
+      responses:
+        '200':
+          description: Success operation
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error  
+    delete:
+      tags:
+      - Staffs
+      summary: Delete Staff
+      description: Remove a Staff
+      parameters:
+        - name: id
+          in: path
+          description: ID of Staff
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error 
+  /api/Requests:
+    get:
+      tags:
+      - Requests
+      summary: Get All Requests
+      description: Return List Requests
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Requests'
+
+        '500':
+          description: Status internal server error
+    post:
+      tags:
+      - Requests
+      summary: Add Request
+      description: Add New Request 
+      requestBody:
+        description: Add Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Requests'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '500':
+          description: Status internal server error
+  /api/Requests/{id}:
+    get:
+      tags:
+      - Requests
+      summary: Get Single Request
+      description: Return Request by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of Request
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Requests'
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+          
+    delete:
+      tags:
+      - Requests
+      summary: Delete Request
+      description: Remove a Request
+      parameters:
+        - name: id
+          in: path
+          description: ID of Request
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error 
+  /api/Histories:
+    get:
+      tags:
+      - Histories
+      summary: Get All Histories
+      description: Return List Histories
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Histories'
+
+        '500':
+          description: Status internal server error
+    post:
+      tags:
+      - Histories
+      summary: Add History
+      description: Add New History
+      requestBody:
+        description: Add History
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Histories'
+      responses:
+        '200':
+          description: Successful operatio
+        '500':
+          description: Status internal server error
+  /api/Histories/{id}:
+    get:
+      tags:
+      - Histories
+      summary: Get Single History
+      description: Return History by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID of History
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Histories'
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+          
+    delete:
+      tags:
+      - Histories
+      summary: Delete History
+      description: Remove a History
+      parameters:
+        - name: id
+          in: path
+          description: ID of History
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error 
+components:
+  schemas:
+  UsersPath:
+      type: object
+      properties:
+        login:
+          type: string
+          example: username
+        password:
+          type: string
+          example: password
+    Users:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        login:
+          type: string
+          example: username
+        password:
+          type: string
+          example: password
+    Rooms:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        number:
+          type: integer
+          example: 102
+        status:
+          type: string
+          example: Free
+        priceperday:
+          type: integer
+          example: 1000
+          
+    Guests:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        id_user:
+          type: integer
+          example: 2
+        name:
+          type: string
+          example: kulosis
+        mail:
+          type: string
+          example: kulo@gmail.com
+        age:
+          type: integer
+          example: 20
+        address:
+          type: string
+          example: Moscow
+    Staffs:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        id_user:
+          type: integer
+          example: 2
+        name:
+          type: string
+          example: staff
+        mail:
+          type: string
+          example: staff@gmail.com
+        age:
+          type: integer
+          example: 20
+        address:
+          type: string
+          example: Moscow
+    Requests:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        id_room:
+          type: integer
+          example: 10
+        id_guest:
+          type: integer
+          example: 20
+        price:
+          type: integer
+          example: 2000
+        timeIn:
+          type: integer
+          example: 20.03.2023
+        timOut:
+          type: integer
+          example: 20.05.2023
+        status:
+          type: string
+          example: Approve
+    Histories:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        id_request:
+          type: integer
+          example: 10
+        id_staff:
+          type: integer
+          example: 20
+        timeAdded:
+          type: integer
+          example: 20.03.2023
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
