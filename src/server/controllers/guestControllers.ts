@@ -18,7 +18,7 @@ export const getGuest = (req: Request, res: Response, next: NextFunction) => {
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found!!!");
+            throw new InvalidArgumentError("invalid id!!!");
         const guest = await guestController.getPerson(id);
         if (!guest)
             throw new NotFoundError("guest not found by id!");
@@ -29,12 +29,14 @@ export const getGuest = (req: Request, res: Response, next: NextFunction) => {
 
 export const getIdGuestByIdLogin = (req: Request, res: Response, next: NextFunction) => {
     safetyWrapper(res, async () => {
-        const id_login = req.params.id_login && parseInt(req.params.id_login);
+        const id_login = req.query.id_login;
         if (!id_login)
-            throw new InvalidArgumentError("id_login not found!!!");
-        const id = await guestController.getIdPersonByIdLogin(id_login);
+            throw new InvalidArgumentError("id_login invalid!!!");
+        const parseId_login = Number(id_login);
+        const id = await guestController.getIdPersonByIdLogin(parseId_login);
         if (!id)
             throw new NotFoundError("guest not found by id_login!");
+        console.log(id);
         res.status(200).json(id);
     });
 }
@@ -57,7 +59,7 @@ export const removeGuest = (req: Request, res: Response, next: NextFunction) => 
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found");
+            throw new InvalidArgumentError("invalid id");
         await guestController.removePerson(id);
         res.status(200).json("Remove Success");
     });

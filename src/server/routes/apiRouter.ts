@@ -8,14 +8,14 @@ import history_router from "./historyRouter";
 
 const api_router: Router = express.Router();
 
-api_router.use("/users", user_router);
-api_router.use("/rooms", room_router);
-api_router.use("/guests", guest_router);
+api_router.use("/Users", user_router);
+api_router.use("/Rooms", room_router);
+api_router.use("/Guests", guest_router);
 
-api_router.use("/staffs", staff_router);
+api_router.use("/Staffs", staff_router);
 
-api_router.use("/requests", request_router);
+api_router.use("/Requests", request_router);
 
-api_router.use("/histories", history_router);
+api_router.use("/Histories", history_router);
 
 export default api_router;

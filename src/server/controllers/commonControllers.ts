@@ -49,5 +49,5 @@ export const auth = (): ((req: UserRequest, res: Response, next: NextFunction) =
 }
 
 export const sendOld = (req: Request, res: Response, _next: NextFunction) => {
-  res.sendFile(path.resolve() + "/src/static/index.html");
+  res.send("<h1>old</h1>");
 }

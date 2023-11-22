@@ -6,9 +6,9 @@ const staff_router: Router = express.Router();
 
 staff_router.post('/', createStaff);
 
-staff_router.get('/:id', getStaff);
+staff_router.get("/id", getIdStaffByIdLogin);
 
-staff_router.get("/id/:number", getIdStaffByIdLogin);
+staff_router.get('/:id', getStaff);
 
 staff_router.patch('/', updateStaff);
 

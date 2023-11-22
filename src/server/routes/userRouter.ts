@@ -42,7 +42,7 @@ user_router.post('/', createUser);
  * @returns {string} 404 - user not found
  * @returns {string} 405 - invalid input
  */
-user_router.get("/username/:login", getUserByLogin);
+user_router.get('/', getUserByLogin);
 
 /**
  * Get user by id
@@ -56,7 +56,7 @@ user_router.get("/username/:login", getUserByLogin);
  * @returns {string} 404 - user not found
  * @returns {string} 405 - invalid input
  */
-user_router.get('/id/:id', getUserById);
+user_router.get('/:id', getUserById);
 
 /**
  * Update user password

@@ -18,7 +18,7 @@ export const getRoom = (req: Request, res: Response, next: NextFunction) => {
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found!!!");
+            throw new InvalidArgumentError("invalid Id !!!");
         const room = await roomController.getRoom(id);
         if (!room)
             throw new NotFoundError("room not found by id!");
@@ -29,13 +29,21 @@ export const getRoom = (req: Request, res: Response, next: NextFunction) => {
 
 export const getRoomByNum = (req: Request, res: Response, next: NextFunction) => {
     safetyWrapper(res, async () => {
-        const number = req.params.number && parseInt(req.params.isNumber);
+        const {number} = req.query;
         if (!number)
-            throw new InvalidArgumentError("number not found!!!");
-        const room = await roomController.getRoomByNum(number);
-        if (!room)
-            throw new NotFoundError("room not found by number!");
-        res.status(200).json(new DTORoom(room));
+        {
+            const rooms = await roomController.getRooms();
+            res.status(200).json(rooms)
+            // throw new InvalidArgumentError("number not found!!!");
+        }
+        else{
+
+            const parseNum = Number(number);
+            const room = await roomController.getRoomByNum(parseNum);
+            if (!room)
+                throw new NotFoundError("room not found by number!");
+            res.status(200).json([new DTORoom(room)]);
+        }
     });
 }
 
@@ -61,9 +69,9 @@ export const removeRoom = (req: Request, res: Response, next: NextFunction) => {
     });
 }
 
-export const getRooms = (req: Request, res: Response, next: NextFunction) => {
-    safetyWrapper(res, async () => {
-        const rooms = await roomController.getRooms();
-        res.status(200).json(rooms);
-    });
-}
+// export const getRooms = (req: Request, res: Response, next: NextFunction) => {
+//     safetyWrapper(res, async () => {
+//         const rooms = await roomController.getRooms();
+//         res.status(200).json(rooms);
+//     });
+// }

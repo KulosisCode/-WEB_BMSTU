@@ -18,7 +18,7 @@ export const getRequest= (req: Request, res: Response, next: NextFunction) => {
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found!!!");
+            throw new InvalidArgumentError("invalid id!!!");
         const request = await requestController.getRequest(id);
         if (!request)
             throw new NotFoundError("request not found by id!");
@@ -43,7 +43,7 @@ export const removeRequest= (req: Request, res: Response, next: NextFunction) =>
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found");
+            throw new InvalidArgumentError("invalid id");
         await requestController.removeRequest(id);
         res.status(200).json("Remove Success");
     });

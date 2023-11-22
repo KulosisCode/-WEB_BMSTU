@@ -20,11 +20,11 @@ const PASSWORD = "haoasd";
 const PORT = 5432;
 
 const connParams: ConnParams = {
-    user: USERNAME,
-    host: HOST,
-    database: DATABASE,
-    password: PASSWORD,
-    port: PORT,
+    user: process.env.PG_USER || "postgres",
+    host: process.env.PG_HOST || "localhost",
+    database: process.env.PG_DATABASE || "my_ppo",
+    password: process.env.PG_PASSWORD || "haoasd",
+    port: 5432//parseInt(process.env.PG_PORT as string),
 };
 
 const userRepo = new DbUserRepo(connParams);

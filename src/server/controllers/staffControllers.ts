@@ -18,7 +18,7 @@ export const getStaff = (req: Request, res: Response, next: NextFunction) => {
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found!!!");
+            throw new InvalidArgumentError("invalid id!!!");
         const staff = await staffController.getPerson(id);
         if (!staff)
             throw new NotFoundError("staff not found by id!");
@@ -29,10 +29,11 @@ export const getStaff = (req: Request, res: Response, next: NextFunction) => {
 
 export const getIdStaffByIdLogin = (req: Request, res: Response, next: NextFunction) => {
     safetyWrapper(res, async () => {
-        const id_login = req.params.id_login && parseInt(req.params.id_login);
+        const id_login = req.query.id_login;
         if (!id_login)
-            throw new InvalidArgumentError("id_login not found!!!");
-        const id = await staffController.getIdPersonByIdLogin(id_login);
+            throw new InvalidArgumentError("id_login invalid !!!");
+        const parseId_login = Number(id_login);
+        const id = await staffController.getIdPersonByIdLogin(parseId_login);
         if (!id)
             throw new NotFoundError("staff not found by id_login!");
         res.status(200).json(id);
@@ -57,7 +58,7 @@ export const removeStaff = (req: Request, res: Response, next: NextFunction) => 
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found");
+            throw new InvalidArgumentError("invalid id");
         await staffController.removePerson(id);
         res.status(200).json("Remove Success");
     });

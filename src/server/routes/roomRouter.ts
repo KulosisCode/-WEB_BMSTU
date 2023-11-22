@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { createRoom, getRoom, getRoomByNum, updateRoom, removeRoom, getRooms } from "../controllers/roomControllers";
+import { createRoom, getRoom, updateRoom, removeRoom, getRoomByNum } from '../controllers/roomControllers';
 const room_router: Router = express.Router();
 
 
@@ -17,6 +17,19 @@ const room_router: Router = express.Router();
  */
 room_router.post('/', createRoom);
 
+/**
+ * Get Room by Room Number
+ * @route GET /rooms/num/{number}
+ * @group rooms - Operations about room
+ * @param {integer} number.path.required - id of room
+ * @operationId getRoomByNum
+ * @produces application/json
+ * @consumes application/json
+ * @returns {string} 200 - ok (token)
+ * @returns {string} 404 - Room not found
+ * @returns {string} 405 - invalid input
+ */
+room_router.get('/', getRoomByNum);
 
 /**
  * Get Room
@@ -30,21 +43,7 @@ room_router.post('/', createRoom);
  * @returns {string} 404 - Room not found
  * @returns {string} 405 - invalid input
  */
-room_router.get('/id/:id', getRoom);
-
-/**
- * Get Room by Room Number
- * @route GET /rooms/num/{number}
- * @group rooms - Operations about room
- * @param {integer} number.path.required - id of room
- * @operationId getRoomByNum
- * @produces application/json
- * @consumes application/json
- * @returns {string} 200 - ok (token)
- * @returns {string} 404 - Room not found
- * @returns {string} 405 - invalid input
- */
-room_router.get("/num/:number", getRoomByNum);
+room_router.get('/:id', getRoom);
 
 /**
  * Update Room
@@ -85,6 +84,7 @@ room_router.delete('/:id', removeRoom);
  * @produces application/json
  * @returns {Array.<Room.model>} 200 - An array of rooms info
  */
-room_router.get('/', getRooms);
+// room_router.get('/', getRooms);
+
 
 export default room_router;

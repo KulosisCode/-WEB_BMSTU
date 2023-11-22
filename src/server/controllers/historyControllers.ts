@@ -18,7 +18,7 @@ export const getHistory= (req: Request, res: Response, next: NextFunction) => {
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found!!!");
+            throw new InvalidArgumentError("invalid id !!!");
         const history = await historyController.getHistory(id);
         if (!history)
             throw new NotFoundError("history not found by id!");
@@ -30,7 +30,7 @@ export const removeHistory= (req: Request, res: Response, next: NextFunction) =>
     safetyWrapper(res, async () => {
         const id = req.params.id && parseInt(req.params.id);
         if (!id)
-            throw new InvalidArgumentError("id not found");
+            throw new InvalidArgumentError("invalid id");
         await historyController.removeHistory(id);
         res.status(200).json("Remove Success");
     });

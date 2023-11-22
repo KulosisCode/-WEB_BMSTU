@@ -22,6 +22,7 @@ const PORT = 5432;
 const prepareTestDB = () => {
     const script_template = `(set PGPASSWORD=${PASSWORD}) && psql -h ${HOST} -U ${USERNAME} -d ${DATABASE} -f ./sql/init.sql`;
     exec(script_template);
+    // await new Promise(r => setTimeout(r, 2000));
 }
 
 const connParams: ConnParams = {

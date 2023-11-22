@@ -3,6 +3,7 @@ import { DTOUser, DTOUserLoginInfo } from "../models";
 import { safetyWrapper } from "../common";
 import { DbError, NotFoundError, InvalidArgumentError } from "../../logic/error";
 import { authController, userController } from "../initConnect";
+import { parse } from "node:path";
 
 
 export const login = (req: Request, res: Response, _next: NextFunction) => {
@@ -39,10 +40,11 @@ export const createUser = (req: Request, res: Response, _next: NextFunction) => 
 
 export const getUserByLogin = (req: Request, res: Response, _next: NextFunction) => {
   safetyWrapper(res, async() => {
-    const login = req.params.login;
+    const { login } = req.query;
     if (!login)
-      throw new InvalidArgumentError("username not found!!!");
-    const user = await userController.getUserByLogin(login);
+      throw new InvalidArgumentError("invalid username!!!");
+    const parseLogin = String(login);
+    const user = await userController.getUserByLogin(parseLogin);
     if (!user)
         throw new NotFoundError("user not found by username!");
     res.status(200).json(new DTOUser(user));
@@ -53,7 +55,7 @@ export const getUserById = (req: Request, res: Response, _next: NextFunction) =>
   safetyWrapper(res, async() => {
     const id = req.params.id && parseInt(req.params.id)
     if (!id)
-        throw new InvalidArgumentError("id not found");
+        throw new InvalidArgumentError("invalid id");
     const user = await userController.getUserById(id);
     if (!user)
         throw new NotFoundError("user not found by id");
@@ -66,7 +68,7 @@ export const updateUser = (req: Request, res: Response, _next: NextFunction) => 
     const id = req.body.id && parseInt(req.body.id);
     const password = req.body.password;
     if (!id || !password)
-      throw new InvalidArgumentError("Update failed!");
+      throw new InvalidArgumentError("invalid id!");
     await userController.updateUser(id, password);
     res.status(200).json("Update Success");
   })
@@ -76,7 +78,7 @@ export const removeUser = (req: Request, res: Response, _next: NextFunction) => 
   safetyWrapper(res, async() => {
     const login = req.params.login;
     if (!login)
-      throw new InvalidArgumentError("id not found");
+      throw new InvalidArgumentError("invalid id");
     await userController.removeUser(login);
     res.status(200).json("Remove Success");
   })

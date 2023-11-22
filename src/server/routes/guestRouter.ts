@@ -17,6 +17,19 @@ const guest_router: Router = express.Router();
  */
 guest_router.post('/', createGuest);
 
+/**
+ * Get Id Guest by Id_login
+ * @route GET /guests/id/{id_login}
+ * @group guests - Operations about guest
+ * @param {integer} id_login.path.required - id_login of guest
+ * @operationId getIdGuestByIdLogin
+ * @produces application/json
+ * @consumes application/json
+ * @returns {string} 200 - ok (token)
+ * @returns {string} 404 - Id not found
+ * @returns {string} 405 - invalid input
+ */
+guest_router.get('/id', getIdGuestByIdLogin);
 
 /**
  * Get Guest
@@ -32,19 +45,6 @@ guest_router.post('/', createGuest);
  */
 guest_router.get('/:id', getGuest);
 
-/**
- * Get Id Guest by Id_login
- * @route GET /guests/id/{id_login}
- * @group guests - Operations about guest
- * @param {integer} id_login.path.required - id_login of guest
- * @operationId getIdGuestByIdLogin
- * @produces application/json
- * @consumes application/json
- * @returns {string} 200 - ok (token)
- * @returns {string} 404 - Id not found
- * @returns {string} 405 - invalid input
- */
-guest_router.get("/id/:id_login", getIdGuestByIdLogin);
 
 /**
  * Update Guest

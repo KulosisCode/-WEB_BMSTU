@@ -7,8 +7,8 @@
     "test": "jest --verbose=true --silent=false ",
     "debug": "jest --detectOpenHandles",
     "cover": "jest --coverage",
-    "start": "nodemon src/server/app.ts",
-    "app": "ts-node src/server/app.ts"
+    "start": "ts-node src/server/app.ts",
+    "app": "nodemon src/server/app.ts"
   },
   "author": "",
   "license": "ISC",
@@ -20,12 +20,8 @@
     "child_process": "^1.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "express-swagger-generator": "^1.1.17",
     "jsonwebtoken": "^9.0.2",
     "marked": "^9.1.5",
-    "mongodb": "^6.1.0",
-    "mongoose": "^7.6.3",
-    "nginx": "^1.0.8",
     "path": "^0.12.7",
     "pg": "^8.11.3",
     "postgres": "^3.4.0",
@@ -39,10 +35,12 @@
     "@types/node": "^20.8.6",
     "@types/swagger-ui-express": "^4.1.5",
     "@types/yamljs": "^0.2.33",
+    "express-swagger-generator": "^1.1.17",
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
     "ts-jest": "^29.1.1",
     "types": "^0.1.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0"
   }
 }

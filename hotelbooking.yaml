@@ -2,6 +2,9 @@ openapi: 3.0.3
 info:
   title: BookingHotel
   version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/v1
+  - url: https://localhost:3000/api/v1
 tags:
   - name: Rooms
     description: Room
@@ -16,145 +19,21 @@ tags:
   - name: Histories
     description: History of Booking
 paths:
-  /Users/login:
-    post:
-      tags:
-        - Users
-      summary: Login
-      description : Login
-      requestBody:
-        description: Login
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Login'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Invalid input
-        '401':
-          description: Invalid login or password
-        '500':
-          description: Status internal server error
-  /Users/:
-    post:
-      tags:
-      - Users
-      summary: Register
-      description: Create new account
-      requestBody:
-        description: Register
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Login'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Invalid input
-        '500':
-          description: Status internal server error
-    patch:
-      tags:
-      - Users
-      summary: Update User
-      description: Update User Password
-      requestBody:
-        description: Update User
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UsersPatch'
-        required: true
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: ID Not Found
-        '500':
-          description: Status internal server error
-  /Users/id/{id}:
-    get:
-      tags:
-      - Users
-      summary: Get User Account
-      description: Return User Account by Id
-      parameters:
-        - name: id
-          in: path
-          description: Id of User Account
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Users'
-        '404':
-          description: ID Not Found
-        '500':
-          description: Status internal server error
-  /Users/username/{login}:
-    get:
-      tags:
-      - Users
-      summary: Get User Account
-      description: Return User Account by Id
-      parameters:
-        - name: login
-          in: path
-          description: Id of User Account
-          required: true
-          schema:
-            type: string
-            format: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Users'
-        '404':
-          description: ID Not Found
-        '500':
-          description: Status internal server error    
-  /Users/{login}:  
-    delete:
-      tags:
-      - Users
-      summary: Delete User Account
-      description: Delete Account
-      parameters:
-        - name: login
-          in: path
-          description: login of User Account
-          required: true
-          schema:
-            type: string
-            format: string
-      responses:
-        '200':
-          description: Success
-        '404':
-          description: Not Found
-        '500':
-          description: Status internal server error
-          
   /Rooms:
     get:
       tags:
       - Rooms
-      summary: Get All Room
+      summary: Get List Room
       description: Return List Room
+      parameters:
+        - name: number
+          in: query
+          description: ID of Room
+          required: false
+          explode: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: Successful operation
@@ -181,7 +60,7 @@ paths:
       responses:
         '200':
           description: Successful operation
-        '400':
+        '405':
           description: Invalid input
         '500':
           description: Status internal server error
@@ -202,11 +81,38 @@ paths:
           description: ID Not Found
         '500':
           description: Status internal server error  
-  /Rooms/id/{id}:
+    
+  # /Rooms/number:
+  #   get:
+  #     tags:
+  #     - Rooms
+  #     summary: Get Single Room by number of room
+  #     description: Return Room by number of room
+  #     parameters:
+  #       - name: number
+  #         in: query
+  #         description: ID of Room
+  #         required: true
+  #         explode: true
+  #         schema:
+  #           type: integer
+  #           format: int64
+  #     responses:
+  #       '200':
+  #         description: Success operation
+  #         content:
+  #           application/json:
+  #             schema:
+  #                 $ref: '#/components/schemas/Rooms'
+  #       '405':
+  #         description: Invalid number value
+  #       '500':
+  #         description: Status internal server error      
+  /Rooms/{id}:
     get:
       tags:
       - Rooms
-      summary: Get Single Room
+      summary: Get Single Room by Id
       description: Return Room by Id
       parameters:
         - name: id
@@ -227,32 +133,6 @@ paths:
           description: ID Not Found
         '500':
           description: Status internal server error
-  /Rooms/num/{number}:
-    get:
-      tags:
-      - Rooms
-      summary: Get Single Room
-      description: Return Room by number of room
-      parameters:
-        - name: number
-          in: path
-          description: ID of Room
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Success operation
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/Rooms'
-        '404':
-          description: ID Not Found
-        '500':
-          description: Status internal server error      
-  /Rooms/{id}:
     delete:
       tags:
       - Rooms
@@ -269,10 +149,153 @@ paths:
       responses:
         '200':
           description: Success operation
+        '403':
+          description: No enough permissions
+        '404':
+          description: ID not found
+        '405':
+          description: Invalid value id
+        '500':
+          description: Status internal server error
+  /Users/login:
+    post:
+      tags:
+        - Users
+      summary: Login
+      description : Login
+      requestBody:
+        description: Login
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '403':
+          description: No enough permissions
+        '405':
+          description: Invalid input
+        '500':
+          description: Status internal server error
+  /Users/:
+    post:
+      tags:
+      - Users
+      summary: Register
+      description: Create new account
+      requestBody:
+        description: Register
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '405':
+          description: Invalid input
+        '500':
+          description: Status internal server error
+    patch:
+      tags:
+      - Users
+      summary: Update User
+      description: Update User Password
+      requestBody:
+        description: Update User
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersPatch'
+        required: true
+      responses:
+        '200':
+          description: Success
         '404':
           description: ID Not Found
         '500':
           description: Status internal server error
+    get:
+      tags:
+      - Users
+      summary: Get User Account
+      description: Return User Account by Login
+      parameters:
+        - name: login
+          in: query
+          description: login of User Account
+          required: true
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '405':
+          description: Invalid username value
+        '500':
+          description: Status internal server error
+  # /Users/username:
+      
+  /Users/{id}:
+    get:
+      tags:
+      - Users
+      summary: Get User Account
+      description: Return User Account by Id
+      parameters:
+        - name: id
+          in: path
+          description: Id of User Account
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '404':
+          description: ID Not Found
+        '500':
+          description: Status internal server error
+    
+  /Users/{login}:  
+    delete:
+      tags:
+      - Users
+      summary: Delete User Account
+      description: Delete Account
+      parameters:
+        - name: login
+          in: path
+          description: login of User Account
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: Success
+        '403':
+          description: No enough permissions
+        '404':
+          description: Login not found
+        '405':
+          description: Invalid value login
+        '500':
+          description: Status internal server error
+        
   /Guests:
     get:
       tags:
@@ -305,7 +328,7 @@ paths:
       responses:
         '200':
           description: Successful operation
-        '400':
+        '405':
           description: Invalid input
         '500':
           description: Status internal server error
@@ -327,11 +350,37 @@ paths:
           description: ID Not Found
         '500':
           description: Status internal server error 
+  /Guests/id:
+    get:
+      tags:
+      - Guests
+      summary: Get Id Guest by id_login
+      description: Return id Guest
+      parameters:
+        - name: id_login
+          in: query
+          description: ID of Guest
+          required: true
+          explode: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Person'
+        '405':
+          description: Invalid id_login value
+        '500':
+          description: Status internal server error
   /Guests/{id}:
     get:
       tags:
       - Guests
-      summary: Get Single Guest
+      summary: Get Single Guest by id
       description: Return Guest by Id
       parameters:
         - name: id
@@ -370,35 +419,15 @@ paths:
       responses:
         '200':
           description: Success operation
+        '403':
+          description: No enough permissions
         '404':
           description: ID Not Found
+        '405':
+          description: Invalid value Id
         '500':
           description: Status internal server error 
-  /Guests/id/{id}:
-    get:
-      tags:
-      - Guests
-      summary: Get Single Guest
-      description: Return Guest by Id
-      parameters:
-        - name: id
-          in: path
-          description: ID of Guest
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Success operation
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/Person'
-        '404':
-          description: ID Not Found
-        '500':
-          description: Status internal server error
+  
   /Staffs:
     get:
       tags:
@@ -431,7 +460,7 @@ paths:
       responses:
         '200':
           description: Successful operation
-        '400':
+        '405':
           description: Invalid input
         '500':
           description: Status internal server error
@@ -453,6 +482,32 @@ paths:
           description: ID Not Found
         '500':
           description: Status internal server error 
+        
+  /Staffs/id:
+    get:
+      tags:
+      - Staffs
+      summary: Get Single ID Staff by id_login
+      description: Return id Staff
+      parameters:
+        - name: id_login
+          in: query
+          description: ID of Staff
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Person'
+        '405':
+          description: Invalid id_login value
+        '500':
+          description: Status internal server error
   /Staffs/{id}:
     get:
       tags:
@@ -478,7 +533,6 @@ paths:
           description: ID Not Found
         '500':
           description: Status internal server error
-          
      
     delete:
       tags:
@@ -496,35 +550,15 @@ paths:
       responses:
         '200':
           description: Success operation
+        '403':
+          description: No enough permissions
         '404':
           description: ID Not Found
+        '405':
+          description: Invalid value Id
         '500':
           description: Status internal server error 
-  /Staffs/id/{id}:
-    get:
-      tags:
-      - Staffs
-      summary: Get Single Staff
-      description: Return Staff by Id
-      parameters:
-        - name: id
-          in: path
-          description: ID of Staff
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Success operation
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/Person'
-        '404':
-          description: ID Not Found
-        '500':
-          description: Status internal server error
+  
   /Requests:
     get:
       tags:
@@ -557,7 +591,7 @@ paths:
       responses:
         '200':
           description: Successful operation
-        '400':
+        '405':
           description: Invalid input
         '500':
           description: Status internal server error
@@ -621,8 +655,12 @@ paths:
       responses:
         '200':
           description: Success operation
+        '403':
+          description: No enough permissions
         '404':
           description: ID Not Found
+        '405':
+          description: Invalid value Id
         '500':
           description: Status internal server error 
   /Histories:
@@ -701,8 +739,12 @@ paths:
       responses:
         '200':
           description: Success operation
+        '403':
+          description: No enough permissions
         '404':
           description: ID Not Found
+        '405':
+          description: Invalid value Id
         '500':
           description: Status internal server error 
 components:
@@ -737,6 +779,9 @@ components:
         password:
           type: string
           example: password
+        role:
+          type: integer
+          example: 1
           
     RoomsPatch:
       type: object
