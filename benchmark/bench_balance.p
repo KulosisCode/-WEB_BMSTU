@@ -2,10 +2,10 @@
 set terminal png
 
 # save file to "benchmark.png"
-set output "benchmark.png"
+set output "benchmark12.png"
 
 # graph title
-set title "ab -n 2500 -c 250 -g out.data http://localhost:8081/api/v1/grandprix (с балансировкой)"
+set title "ab -n 1000 -c 100 -g out.data http://localhost:80/api/v1/rooms(с балансировкой)"
 
 #nicer aspect ratio for image size
 set size 0.95,1
@@ -20,4 +20,4 @@ set xlabel "request"
 set ylabel "response time (ms)"
 
 #plot data from "out.data" using column 9 with smooth sbezier lines
-plot "out.data" using 9 smooth sbezier with lines title "FormulOne"
+plot "out12.data" using 9 smooth sbezier with lines title "HotelBooking"
