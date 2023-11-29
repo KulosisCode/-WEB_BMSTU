@@ -1,7 +1,7 @@
 # Нагрузочное тестирование
 Command for create image: 
 ```shell
-gnuplot out.data
+gnuplot bench_balance.p
 ```
 Для проведения нагрузочного тестирования веб-веб сервера использовался Apache Benchmark.
 
